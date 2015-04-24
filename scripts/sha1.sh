@@ -26,6 +26,7 @@ if [ -e $BIN/$NAM ]; then
   { time $BIN/$NAM $IN/64.txt $OUT/64.sha1;  } 2> $OUT/time_64.txt
   { time $BIN/$NAM $IN/128.txt $OUT/128.sha1;} 2> $OUT/time_128.txt
   echo "$NAM test complete"
+  cat $OUT/time_* | grep real > ../doc/sha_time.txt
 else
   echo "Could not create executable $BIN/$NAM";
 fi
