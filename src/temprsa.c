@@ -144,7 +144,7 @@ int main(int argc, char** argv)
   }
   else
   {
-    printf("Usage: prog, encfile, encoutfile, decoutfile\n");
+    printf("Usage: prog, encfile, encoutfile\n");
   }
 
   return 0;
