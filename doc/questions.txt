@@ -79,8 +79,12 @@ e.	Prepare a report of your observations in the format requested under “Delive
       
   d.	In the public-key system using RSA, you intercept the cipher text C=10 sent to a user whose public key is e=5, n=35.
       What is the plaintext M? Show the steps.
-      10^3 mod 35 = 20
-      20^5 mod 35 = 20
+      pq = 35
+      pn = (7-1)(5-1) = 24
+      d  = 5
+      5 x 5 mod 24 = 1
+      'C' = 12         | '=' = 61         | '1' = 49         | '0' =  48
+      12^5 mod 35 = 17 | 61^5 mod 35 = 31 | 47^5 mod 35 = 14 | 48^5 mod 35 = 13
       
 6. ...
   b.	Printout.
@@ -89,21 +93,21 @@ e.	Prepare a report of your observations in the format requested under “Delive
     See ../src
     
     -	Graphs showing: (i) DES encryption / decryption times; (ii) RSA encryption times; (iii)  RSA decryption times; and (iv) SHA-1 digests generation times. In each of these graphs, the  X axis  should plot the file sizes in units of bytes,
-      and   the Y axis should plot time measurements in units of microseconds (µs).
+        and   the Y axis should plot time measurements in units of microseconds (µs).
 
--	Answer the following questions:
+    -	Answer the following questions:
 
--	Compare DES encryption and RSA encryption. Explain your observations. 
-  Encryption using DES requires generation of a single key used for both encryption and decryption
-  while RSA requires both a public and private key pair be generated. Using RSA, the public key can 
-  be used for encryption while the private key is used for decryption. Thus the major differences are
-  largely due to the usage of symetric vs asymetric encryption.
+    -	Compare DES encryption and RSA encryption. Explain your observations. 
+        Encryption using DES requires generation of a single key used for both encryption and decryption
+        while RSA requires both a public and private key pair be generated. Using RSA, the public key can 
+        be used for encryption while the private key is used for decryption. Thus the major differences are
+        largely due to the usage of symetric vs asymetric encryption.
   
--	Compare DES encryption and SHA-1 digest generation. Explain your observations.
-  SHA-1 digest generation operates on a one to one mapping of the message being digested using the
-  SHA-1 context for every 20 bytes of the message. Des applies the key to the message text in 8 byte 
-  blocks to generate the cipher text and uses the same key to convert the cipher text back to plain text.
+    -	Compare DES encryption and SHA-1 digest generation. Explain your observations.
+        SHA-1 digest generation operates on a one to one mapping of the message being digested using the
+        SHA-1 context for every 20 bytes of the message. Des applies the key to the message text in 8 byte 
+        blocks to generate the cipher text and uses the same key to convert the cipher text back to plain text.
   
--	Compare RSA encryption and decryption times. Can you explain your observations?
-  [Hint: Refer to section 6.3.4.3 of the book “Network Security, private communication in a public world”
-   by Kaufman, Perlman and Speciner.]
+    -	Compare RSA encryption and decryption times. Can you explain your observations?
+        [Hint: Refer to section 6.3.4.3 of the book “Network Security, private communication in a public world”
+         by Kaufman, Perlman and Speciner.]
