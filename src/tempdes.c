@@ -61,12 +61,25 @@ int DesFile(const char* rf, const char* wf, int ed)
  **/
 int main(int argc, char** argv)
 {
-  if(argc == 4)
+  if(argc == 3)
   {
-    int enc = atoi(argv[3]);
-    if(enc == 1)   printf("DES encoding ASCII file: %s to %s\n", argv[1], argv[2]);
-    else           printf("Decoding DES file: %s to %s\n", argv[1], argv[2]);
-    DesFile(argv[1], argv[2], enc);
+    printf("DES encoding ASCII file: %s to %s\n", argv[1], argv[2]);
+    if(DesFile(argv[1], argv[2], ENC))
+    {
+      printf("error encrypting\n");
+    }
+    else
+    {
+      char decout[strlen(argv[2]) + 3];
+      memset(decout, 0, strlen(argv[2]) + 3);
+      strcat(decout, argv[2]);
+      strcat(decout, ".d");
+      printf("Decoding DES file: %s to %s\n", argv[2], decout);
+      if(DesFile(argv[2], decout, DEC))
+      {
+        printf("error decrypting\n");
+      }
+    }
   }
 
   return 0;
