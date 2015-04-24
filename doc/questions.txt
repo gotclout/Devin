@@ -1,1 +1,12 @@
-
+5.
+  a)	Suppose the DES mangler function (or function F) mapped every 32 bit value to zero,
+      regardless of the value of its input. How does the output after Round 16 of DES compare
+      to the input at the start of Round 1 of DES? Show your work and provide appropriate explanations.
+  b)	Consider the following message digest (hash) function: Take the input messages, divide it into 128-bit chunks.
+      XOR all the chunks together to get a 128-bit result. Run a standard message digest algorithm on the result.
+      Is this a good message digest function?
+  c)	Perform encryption and decryption using the RSA algorithm for the following:
+      p = 3, q = 11, e =7, M = 5. Please show all the steps in a systematic fashion,
+      like in page 270 of the Stallings text book.
+  d)	In the public-key system using RSA, you intercept the cipher text C=10 sent to a user whose public key is e=5, n=35.
+      What is the plaintext M? Show the steps.
