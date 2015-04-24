@@ -126,19 +126,20 @@ int main(int argc, char** argv)
     }
     else
     {
-      r = RsaEnc(argv[1], argv[2], &key);
-      if(r)
+      if(RsaEnc(argv[1], argv[2], &key))
       {
         printf("RsaEnc error\n");
       }
-      char decout[strlen(argv[2]) + 3];
-      memset(decout, 0, strlen(argv[2]) + 3);
-      strcat(decout, argv[2]);
-      strcat(decout, ".d");
-      r = RsaDec(argv[2], decout, &key);
-      if(r)
+      else
       {
-        printf("RsaDec error\n");
+        char decout[strlen(argv[2]) + 3];
+        memset(decout, 0, strlen(argv[2]) + 3);
+        strcat(decout, argv[2]);
+        strcat(decout, ".d");
+        if(RsaDec(argv[2], decout, &key))
+        {
+          printf("RsaDec error\n");
+        }
       }
       RSA_free(key);
     }
