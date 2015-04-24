@@ -8,7 +8,11 @@
 #define DEC 0
 
 /**
- * Read the file to be encrypted
+ * Read the file to be encrypted/decrypted and write to output
+ * 
+ * @param rf input file
+ * @param wf output file
+ * @param ed encode 0/1
  */
 int DesFile(const char* rf, const char* wf, int ed)
 {
