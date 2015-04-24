@@ -1,4 +1,4 @@
-$BIN/bash
+#!/bin/bash
 
 export BIN="../bin"
 export TESTS="../tests"
@@ -12,19 +12,19 @@ if [ -e $BIN/$NAM ]; then
 fi
 
 echo "Compiling $BIN/$NAM..."
-gcc -g -lrt -lcrypto ../src/$NAM.c -o $BIN/$NAM
+gcc -g -lcrypto ../src/$NAM.c -o $BIN/$NAM
 
 if [ -e $BIN/$NAM ]; then
-  echo "Executing encoding tests..."
+  echo "Executing SHA1 digest tests..."
   rm $OUT/*.sha1
   rm $OUT/*.txt
-  { time $BIN/$NAM $IN/8.txt $OUT/8.sha1 1;            } 2> $OUT/time_8.txt
-  { time $BIN/$NAM $IN/64.txt $OUT/64.sha1 1;          } 2> $OUT/time_64.txt
-  { time $BIN/$NAM $IN/512.txt $OUT/512.sha1 1;        } 2> $OUT/time_512.txt
-  { time $BIN/$NAM $IN/4096.txt $OUT/4096.sha1 1;      } 2> $OUT/time_4096.txt
-  { time $BIN/$NAM $IN/32768.txt $OUT/32768.sha1 1;    } 2> $OUT/time_32768.txt
-  { time $BIN/$NAM $IN/262144.txt $OUT/262144.sha1 1;  } 2> $OUT/time_262144.txt
-  { time $BIN/$NAM $IN/2047152.txt $OUT/2047152.sha1 1;} 2> $OUT/time_2047152.txt
+  { time $BIN/$NAM $IN/2.txt $OUT/2.sha1;    } 2> $OUT/time_2.txt
+  { time $BIN/$NAM $IN/4.txt $OUT/4.sha1;    } 2> $OUT/time_4.txt
+  { time $BIN/$NAM $IN/8.txt $OUT/8.sha1;    } 2> $OUT/time_8.txt
+  { time $BIN/$NAM $IN/16.txt $OUT/16.sha1;  } 2> $OUT/time_16.txt
+  { time $BIN/$NAM $IN/32.txt $OUT/32.sha1;  } 2> $OUT/time_32.txt
+  { time $BIN/$NAM $IN/64.txt $OUT/64.sha1;  } 2> $OUT/time_64.txt
+  { time $BIN/$NAM $IN/128.txt $OUT/128.sha1;} 2> $OUT/time_128.txt
   echo "$NAM test complete"
 else
   echo "Could not create executable $BIN/$NAM";
