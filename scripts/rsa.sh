@@ -26,7 +26,7 @@ if [ -e $BIN/$NAM ]; then
   { time $BIN/$NAM $IN/262144.txt $OUT/262144.rsa;  } 2> $OUT/time_262144.txt
   { time $BIN/$NAM $IN/2047152.txt $OUT/2047152.rsa;} 2> $OUT/time_2047152.txt
   echo "$NAM test complete"
-  cat $OUT/time_* | grep real > ../doc/sha_time.txt
+  cat $OUT/time_* | grep real > ../doc/rsa_time.txt
 else
   echo "Could not create executable $BIN/$NAM";
 fi
