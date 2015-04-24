@@ -1,4 +1,3 @@
-
 #include <openssl/crypto.h>
 #include <openssl/rand.h>
 #include <openssl/rsa.h>
@@ -8,7 +7,7 @@
 /**
  * Decodes rf with private key and writes output to wf
  */
-int RsaDec(const char* rf, const char* wf, RSA** key, int sz)
+int RsaDec(const char* rf, const char* wf, RSA** key)
 {
   int r   = 0,
       v   = 0,
@@ -35,7 +34,7 @@ int RsaDec(const char* rf, const char* wf, RSA** key, int sz)
       rbs += len;
       v = RSA_private_decrypt(len, rb, wb, *key, RSA_PKCS1_PADDING);
       if(v != -1) wbs += fwrite(wb, 1, v, o);
-      else
+      else if(!feof(i))
       {
         ERR_print_errors_fp(stderr);
         r = 2;
@@ -58,10 +57,11 @@ int RsaDec(const char* rf, const char* wf, RSA** key, int sz)
 /**
  * Encodes file rf with key and writes output to wf
  */
-int RsaEnc(const char* rf, const char* wf, RSA** key, int* sz)
+int RsaEnc(const char* rf, const char* wf, RSA** key)
 {
-  int r   = 0,
-      v   = 0;
+  int r  = 0,
+      v  = 0,
+      sz = 0;
   unsigned char* rb;
   unsigned char* wb;
   FILE *i = fopen(rf, "r"),
@@ -70,7 +70,7 @@ int RsaEnc(const char* rf, const char* wf, RSA** key, int* sz)
   if(i && o)
   {
     fseek(i, 0, SEEK_END);
-    *sz = ftell(i);
+    sz = ftell(i);
     fseek(i, 0, SEEK_SET);
     rb = (unsigned char*) malloc(256);
     wb = (unsigned char*) malloc(256);
@@ -126,8 +126,7 @@ int main(int argc, char** argv)
     }
     else
     {
-      int sz = 0;
-      r = RsaEnc(argv[1], argv[2], &key, &sz);
+      r = RsaEnc(argv[1], argv[2], &key);
       if(r)
       {
         printf("RsaEnc error\n");
@@ -136,7 +135,7 @@ int main(int argc, char** argv)
       memset(decout, 0, strlen(argv[2]) + 3);
       strcat(decout, argv[2]);
       strcat(decout, ".d");
-      r = RsaDec(argv[2], decout, &key, sz);
+      r = RsaDec(argv[2], decout, &key);
       if(r)
       {
         printf("RsaDec error\n");
@@ -151,4 +150,3 @@ int main(int argc, char** argv)
 
   return 0;
 }
-
