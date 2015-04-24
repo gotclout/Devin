@@ -7,7 +7,6 @@
 #define ENC 1
 #define DEC 0
 
-
 /**
  * Read the file to be encrypted
  */
