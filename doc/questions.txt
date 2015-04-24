@@ -1,12 +1,109 @@
-5.
-  a)	Suppose the DES mangler function (or function F) mapped every 32 bit value to zero,
+4.	Performance measures for DES, RSA and SHA1
+    The final part of this lab consist on measuring the time DES, RSA and SHA-1 take to process files of different sizes.
+    a.	Generate text files with the following sizes:
+      -	For DES (in bytes): 8, 64, 512, 4096, 32768, 262144, 2047152
+      -	For SHA-1 (in bytes): 8, 64, 512, 4096, 32768, 262144, 2047152
+      -	For RSA (in bytes): 2, 4, 8, 16, 32, 64, 128 
+    
+    See ../tests/in for generated files
+    
+  b.  Encrypt and decrypt all these files using the DES function that you wrote in part 3. Measure the time it takes to
+      encrypt and decrypt each of the files. To do this, you might want to use the C function “gettimeofday”. Add these 
+      timing functions to your implementation of part 3.
+      
+    See ../scripts/des.sh ../scripts/sha1.sh ../scripts/rsa.sh
+    run each script to build generate the required output for the above input files output files are saved to
+    ../tests/out/des sha1 rsa. shell scripts use the linux system time operation to generate running time
+    statistics for each execution of the algorithm in a file with time_ as prefix
+    
+  c.	Measure the time for RSA encryption and decryption for the file sizes listed in part a. To do this, make appropriate
+      changes to the file ”temprsa.c”. This skeleton code shows how to use built-in RSA encryption and decryption functions, but you will need to augment
+      it to allow for reading from arbitrary files, and to insert necessary instrumentation code for timing purposes.
+    
+     See ../src/*.c each of the files has been modified to take input and output files as input
+    
+  d.	Measure the time for SHA-1 hash generation for the file sizes listed in part a. To do this, make appropriate changes to the file
+      ”tempsha1.c”. This skeleton code shows how to use built-in SHA-1 hashing functions, but you will need to augment
+      it to allow for reading from arbitrary files, and to insert necessary instrumentation code for timing purposes.
+    
+      See ../scripts/sha1.sh ../src/sha1.c
+    
+e.	Prepare a report of your observations in the format requested under “Deliverables” (section 6).
+
+
+5. Non Programing Questions
+  a.	Suppose the DES mangler function (or function F) mapped every 32 bit value to zero,
       regardless of the value of its input. How does the output after Round 16 of DES compare
       to the input at the start of Round 1 of DES? Show your work and provide appropriate explanations.
-  b)	Consider the following message digest (hash) function: Take the input messages, divide it into 128-bit chunks.
+      
+      Each of the sub keys generated following round 1 would result in 2 32bit halves to be XORd with the key
+      let block b = 32 bit value 0000000000000000 0000000000000000 and generated key 
+                k = 56 bit value 1111010110111011 0110000011110110 then for each round we have the following
+                0000000000000000 0000000000000000 XOR
+                1111010110111011 0110000011110110
+      as each bit is rotaded and xor applied to the previous round of each block by round 16 each half of the key value
+      will be the same as it's initial value making a 1 to one mapping of key bit to message bit.
+      
+      1101011011101111 XOR 1111010110111011
+      1111010110111011
+      0010001101010100 XOR 0010001101010100
+      1101011011101111
+      1111010110111011
+      
+  b.	Consider the following message digest (hash) function: Take the input messages, divide it into 128-bit chunks.
       XOR all the chunks together to get a 128-bit result. Run a standard message digest algorithm on the result.
       Is this a good message digest function?
-  c)	Perform encryption and decryption using the RSA algorithm for the following:
+      No, This is not a good digest function. If an adversary were to collect enough messages and digest, repeated
+      values in messages would generate the same chunk results in the XOR result. When the standard digest were applied
+      to those chunks the same characters could appear in a pattern allowing the adversary to guess the algorithm. Once
+      the digest algorithm was determined the adversary would need only to analayze enough messages to determine the chunk
+      sizes and apply the symetric XOR opperation.
+      
+  c.	Perform encryption and decryption using the RSA algorithm for the following:
       p = 3, q = 11, e =7, M = 5. Please show all the steps in a systematic fashion,
       like in page 270 of the Stallings text book.
-  d)	In the public-key system using RSA, you intercept the cipher text C=10 sent to a user whose public key is e=5, n=35.
+      n  = pq  
+         = 33
+      pn = (p - 1)(q - 1) ,   e x d mod pn = 1
+         = 20                 7 x 3 mod 20 = 1                               
+      
+      n = 33, pn = 20, d = 3 
+      
+      C(M) = M^7 mod 33
+           = 5^7 mod 33
+           = 14
+           
+      M(C) = C^3  mod 33
+           = 14^3 mod 33
+           = 5
+      
+  d.	In the public-key system using RSA, you intercept the cipher text C=10 sent to a user whose public key is e=5, n=35.
       What is the plaintext M? Show the steps.
+      10^3 mod 35 = 20
+      20^5 mod 35 = 20
+      
+6. ...
+  b.	Printout.
+    Turn in a typed report with the following information:
+    -	C code implemented in parts 3, 4.c and 4.d
+    See ../src
+    
+    -	Graphs showing: (i) DES encryption / decryption times; (ii) RSA encryption times; (iii)  RSA decryption times; and (iv) SHA-1 digests generation times. In each of these graphs, the  X axis  should plot the file sizes in units of bytes,
+      and   the Y axis should plot time measurements in units of microseconds (µs).
+
+-	Answer the following questions:
+
+-	Compare DES encryption and RSA encryption. Explain your observations. 
+  Encryption using DES requires generation of a single key used for both encryption and decryption
+  while RSA requires both a public and private key pair be generated. Using RSA, the public key can 
+  be used for encryption while the private key is used for decryption. Thus the major differences are
+  largely due to the usage of symetric vs asymetric encryption.
+  
+-	Compare DES encryption and SHA-1 digest generation. Explain your observations.
+  SHA-1 digest generation operates on a one to one mapping of the message being digested using the
+  SHA-1 context for every 20 bytes of the message. Des applies the key to the message text in 8 byte 
+  blocks to generate the cipher text and uses the same key to convert the cipher text back to plain text.
+  
+-	Compare RSA encryption and decryption times. Can you explain your observations?
+  [Hint: Refer to section 6.3.4.3 of the book “Network Security, private communication in a public world”
+   by Kaufman, Perlman and Speciner.]
