@@ -38,6 +38,7 @@ int RsaDec(const char* rf, const char* wf, RSA** key, int sz)
       else
       {
         ERR_print_errors_fp(stderr);
+        r = 2;
       }
     }
     fclose(i);
@@ -86,6 +87,7 @@ int RsaEnc(const char* rf, const char* wf, RSA** key, int* sz)
       else
       {
         ERR_print_errors_fp(stderr);
+        r = 2;
       }
     }
 
@@ -144,7 +146,7 @@ int main(int argc, char** argv)
   }
   else
   {
-    printf("Usage: prog, encfile, encoutfile\n");
+    printf("Usage: prog name, encode file name, outfile name\n");
   }
 
   return 0;
