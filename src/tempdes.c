@@ -48,6 +48,13 @@ int DesFile(const char* rf, const char* wf, int ed)
   return rv;
 }
 
+/**
+ * Main encodes the specified input file and saves it to the specified output file,
+ * then decodes it
+ * 
+ * @param argc 
+ * @param argv infile name [1] outfile name[2]
+ **/
 int main(int argc, char** argv)
 {
   if(argc == 4)
