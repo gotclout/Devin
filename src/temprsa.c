@@ -6,7 +6,7 @@
 #include <string.h>
 
 /**
- *
+ * Decodes rf with private key and writes output to wf
  */
 int RsaDec(const char* rf, const char* wf, RSA** key, int sz)
 {
@@ -55,7 +55,7 @@ int RsaDec(const char* rf, const char* wf, RSA** key, int sz)
 }
 
 /**
- *
+ * Encodes file rf with key and writes output to wf
  */
 int RsaEnc(const char* rf, const char* wf, RSA** key, int* sz)
 {
@@ -104,7 +104,7 @@ int RsaEnc(const char* rf, const char* wf, RSA** key, int* sz)
 }
 
 /**
- *
+ * Encodes file argv[1] to outfile argv[2] and decodes argv[2]
  */
 int main(int argc, char** argv)
 {
