@@ -16,13 +16,14 @@
     ../tests/out/des sha1 rsa. shell scripts use the linux system time operation to generate running time
     statistics for each execution of the algorithm in a file with time_ as prefix
     
-  c.	Measure the time for RSA encryption and decryption for the file sizes listed in part a. To do this, make appropriate
-      changes to the file ”temprsa.c”. This skeleton code shows how to use built-in RSA encryption and decryption functions, but you will need to augment
-      it to allow for reading from arbitrary files, and to insert necessary instrumentation code for timing purposes.
+  c.  Measure the time for RSA encryption and decryption for the file sizes listed in part a. To do this, make appropriate
+      changes to the file ”temprsa.c”. This skeleton code shows how to use built-in RSA encryption and decryption functions, but you
+      will need to augment it to allow for reading from arbitrary files, and to insert necessary instrumentation code for
+      timing purposes.
     
      See ../src/*.c each of the files has been modified to take input and output files as input
     
-  d.	Measure the time for SHA-1 hash generation for the file sizes listed in part a. To do this, make appropriate changes to the file
+  d.  Measure the time for SHA-1 hash generation for the file sizes listed in part a. To do this, make appropriate changes to the file
       ”tempsha1.c”. This skeleton code shows how to use built-in SHA-1 hashing functions, but you will need to augment
       it to allow for reading from arbitrary files, and to insert necessary instrumentation code for timing purposes.
     
