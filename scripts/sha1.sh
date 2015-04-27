@@ -12,7 +12,7 @@ if [ -e $BIN/$NAM ]; then
 fi
 
 echo "Compiling $BIN/$NAM..."
-gcc -g -lcrypto ../src/$NAM.c -o $BIN/$NAM
+gcc -g -lrt -lcrypto ../src/$NAM.c -o $BIN/$NAM
 
 if [ -e $BIN/$NAM ]; then
   echo "Executing SHA1 digest tests..."
