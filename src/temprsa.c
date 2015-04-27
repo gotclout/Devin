@@ -66,10 +66,10 @@ int RsaEncDec(const char* rf, const char* wf, RSA** key, int ed)
     free(wb);
     fclose(o);
     gettimeofday(&ft, NULL);
-    double ms = ((ft.tv_sec - st.tv_sec) * 1000.0) + ((double)(ft.tv_usec - st.tv_usec)* .001);
+    double us = ((ft.tv_sec - st.tv_sec) * 1000000.0) + ((double)(ft.tv_usec - st.tv_usec));
     t = fopen("../doc/rsa_ms.txt", "a");
-    if(ed) fprintf(t, "encode: %f ms\n", ms);
-    else   fprintf(t, "decode: %f ms\n", ms);
+    if(ed) fprintf(t, "encode: %f us\n", us);
+    else   fprintf(t, "decode: %f us\n", us);
     fclose(t);
   }
   else
