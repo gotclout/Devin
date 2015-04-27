@@ -55,9 +55,9 @@ int Sha1Digest(const char* rf, const char* wf, SHA_CTX* c)
     fclose(i);
     fclose(o);
     gettimeofday(&ft, NULL);
-    double ms = ((ft.tv_sec - st.tv_sec) * 1000.0) + ((double)(ft.tv_usec - st.tv_usec)* .001);
+    double us = ((ft.tv_sec - st.tv_sec) * 1000000.0) + ((double)(ft.tv_usec - st.tv_usec));
     t = fopen("../doc/sha_ms.txt", "a");
-    fprintf(t, "digest: %f ms\n", ms);
+    fprintf(t, "digest: %f us\n", us);
     fclose(t);
   }
   else
