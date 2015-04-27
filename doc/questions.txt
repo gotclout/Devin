@@ -1,6 +1,6 @@
 4.	Performance measures for DES, RSA and SHA1
     The final part of this lab consist on measuring the time DES, RSA and SHA-1 take to process files of different sizes.
-    a.	Generate text files with the following sizes:
+  a.	Generate text files with the following sizes:
       -	For DES (in bytes): 8, 64, 512, 4096, 32768, 262144, 2047152
       -	For SHA-1 (in bytes): 8, 64, 512, 4096, 32768, 262144, 2047152
       -	For RSA (in bytes): 2, 4, 8, 16, 32, 64, 128 
@@ -93,8 +93,9 @@ e.	Prepare a report of your observations in the format requested under “Delive
     -	C code implemented in parts 3, 4.c and 4.d
     See ../src
     
-    -	Graphs showing: (i) DES encryption / decryption times; (ii) RSA encryption times; (iii)  RSA decryption times; and (iv) SHA-1 digests generation times. In each of these graphs, the  X axis  should plot the file sizes in units of bytes,
-        and   the Y axis should plot time measurements in units of microseconds (µs).
+    -	Graphs showing: (i) DES encryption / decryption times; (ii) RSA encryption times; (iii)  RSA decryption times; 
+        and (iv) SHA-1 digests generation times. In each of these graphs, the  X axis  should plot the file sizes in units of bytes,
+        and  the Y axis should plot time measurements in units of microseconds (µs).
 
     -	Answer the following questions:
 
