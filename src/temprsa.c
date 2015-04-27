@@ -6,16 +6,20 @@
 
 /**
  * Decodes rf with private key and writes output to wf
+ *
+ * @param const char* rf, is the read file for decoding
+ * @param const char* wf, is the write file for deconding
+ * @param RSA** key, is the private key for decrypting
  */
 int RsaDec(const char* rf, const char* wf, RSA** key)
 {
-  int r   = 0,
-      v   = 0,
-      len = 0;
-  unsigned char* rb;
-  unsigned char* wb;
-  FILE *i = fopen(rf, "rb"),
-       *o = fopen(wf, "wb");
+  int r   = 0,               //return code
+      v   = 0,               //decrypt value
+      len = 0;               //length read/write
+  unsigned char* rb;         //read buf
+  unsigned char* wb;         //write buf
+  FILE *i = fopen(rf, "rb"), //read file
+       *o = fopen(wf, "wb"); //write file
 
   if(i && o)
   {
@@ -24,30 +28,30 @@ int RsaDec(const char* rf, const char* wf, RSA** key)
     fseek(i, 0, SEEK_SET);
     rb = (unsigned char*) malloc(256);
     wb = (unsigned char*) malloc(256);
-    int rbs = 0, wbs = 0, len = 0;
     printf("RSA decrypting in file %s to out file %s\n", rf, wf);
     while(feof(i) == 0)
     {
       memset(rb, 0, 256);
       memset(wb, 0, 256);
       len = fread(rb, 1, 256, i);
-      rbs += len;
-      v = RSA_private_decrypt(len, rb, wb, *key, RSA_PKCS1_PADDING);
-      if(v != -1) wbs += fwrite(wb, 1, v, o);
+      v   = RSA_private_decrypt(len, rb, wb, *key, RSA_PKCS1_PADDING);
+      if(v != -1) fwrite(wb, 1, v, o);
       else if(!feof(i))
       {
         ERR_print_errors_fp(stderr);
         r = 2;
       }
     }
+    free(rb);
+    free(wb);
     fclose(i);
     fclose(o);
   }
   else
   {
     printf("I/O error\n");
-    if(!i) printf("open %s failed\n", rf);
-    if(!o) printf("open %s failed\n", wf);
+    if(!i && rf) printf("open %s failed\n", rf);
+    if(!o && wf) printf("open %s failed\n", wf);
     r = 1;
   }
 
@@ -56,35 +60,37 @@ int RsaDec(const char* rf, const char* wf, RSA** key)
 
 /**
  * Encodes file rf with key and writes output to wf
+ *
+ * @param const char* rf, is the read file for decoding
+ * @param const char* wf, is the write file for deconding
+ * @param RSA** key, is the private key for decrypting
  */
 int RsaEnc(const char* rf, const char* wf, RSA** key)
 {
-  int r  = 0,
-      v  = 0,
-      sz = 0;
-  unsigned char* rb;
-  unsigned char* wb;
-  FILE *i = fopen(rf, "r"),
-       *o = fopen(wf, "w");
+  int r   = 0,               //return code
+      v   = 0,               //decrypt value
+      len = 0;               //length read/write
+  unsigned char* rb;         //read buf
+  unsigned char* wb;         //write buf
+  FILE *i = fopen(rf, "rb"), //read file
+       *o = fopen(wf, "wb"); //write file
 
   if(i && o)
   {
     fseek(i, 0, SEEK_END);
-    sz = ftell(i);
+    len = ftell(i);
     fseek(i, 0, SEEK_SET);
     rb = (unsigned char*) malloc(256);
     wb = (unsigned char*) malloc(256);
     printf("RSA encrypting in file %s to out file %s\n", rf, wf);
-    int rbs = 0, wbs = 0, len = 0;
     while(feof(i) == 0)
     {
       memset(rb, 0, 256);
       memset(wb, 0, 256);
-      fread(rb, 1, 128, i);
-      rbs += strlen(rb);
-      len = RSA_public_encrypt(strlen(rb), rb, wb, *key, RSA_PKCS1_PADDING);
-      if(len != -1) wbs += fwrite(wb, 1, 256, o);
-      else
+      len = fread(rb, 1, 128, i);
+      v = RSA_public_encrypt(len, rb, wb, *key, RSA_PKCS1_PADDING);
+      if(v != -1) fwrite(wb, 1, 256, o);
+      else if(!feof(i))
       {
         ERR_print_errors_fp(stderr);
         r = 2;
@@ -99,6 +105,8 @@ int RsaEnc(const char* rf, const char* wf, RSA** key)
   else
   {
     printf("I/O error\n");
+    if(!i && rf) printf("open %s failed\n", rf);
+    if(!o && wf) printf("open %s failed\n", wf);
     r = 1;
   }
 
@@ -106,12 +114,15 @@ int RsaEnc(const char* rf, const char* wf, RSA** key)
 }
 
 /**
- * Encodes file argv[1] to outfile argv[2] and decodes argv[2]
+ * Encodes and decodes text file using RSA pki where
+ *
+ * @param int argc is the number of arguments and
+ * @param argv contains infile argv[1] outfile argv[2]
  */
 int main(int argc, char** argv)
 {
   RSA *key = 0;
-  int r = 0;
+  int    r = 0;
 
   static const char rnd_seed[] =
     "string to make the random number generator think it has entropy";
@@ -151,3 +162,4 @@ int main(int argc, char** argv)
 
   return 0;
 }
+
