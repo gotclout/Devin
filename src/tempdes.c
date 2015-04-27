@@ -49,10 +49,10 @@ int DesFile(const char* rf, const char* wf, int ed)
     fclose(i);
     fclose(o);
     gettimeofday(&ft, NULL);
-    double ms = ((ft.tv_sec - st.tv_sec) * 1000.0) + ((double)(ft.tv_usec - st.tv_usec)* .001);
+    double us = ((ft.tv_sec - st.tv_sec) * 1000000.0) + ((double)(ft.tv_usec - st.tv_usec));
     tf = fopen("../doc/des_ms.txt", "a");
-    if(ed) fprintf(tf, "encode: %f ms\n", ms);
-    else   fprintf(tf, "decode: %f ms\n", ms);
+    if(ed) fprintf(tf, "encode: %f us\n", us);
+    else   fprintf(tf, "decode: %f us\n", us);
     fclose(tf);
   }
   else
