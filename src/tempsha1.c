@@ -15,7 +15,6 @@
  */
 int Sha1Digest(const char* rf, const char* wf, SHA_CTX* c)
 {
-  {
   struct timeval st, ft;
   gettimeofday(&st, NULL);
 
@@ -55,7 +54,6 @@ int Sha1Digest(const char* rf, const char* wf, SHA_CTX* c)
     free(wb);
     fclose(i);
     fclose(o);
-    
     gettimeofday(&ft, NULL);
     double ms = ((ft.tv_sec - st.tv_sec) * 1000.0) + ((double)(ft.tv_usec - st.tv_usec)* .001);
     t = fopen("../doc/sha_ms.txt", "a");
@@ -80,7 +78,7 @@ int main(int argc, char** argv )
   if(argc == 3)
   {
     SHA1_Init(&c);
-    if(Sha1Digest(argv[1], argv[2], &c) != 0)
+    if(Sha1Digest(argv[1], argv[2], &c))
     {
       printf("digest error\n");
     }
@@ -92,4 +90,5 @@ int main(int argc, char** argv )
 
   return 0;
 }
+
 
