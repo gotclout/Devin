@@ -18,7 +18,7 @@
  */
 int DesFile(const char* rf, const char* wf, int ed)
 {
-  struct timeval st;
+  struct timeval st, ft;
   gettimeofday(&st, NULL);
 
   int rv = 0;
@@ -51,7 +51,7 @@ int DesFile(const char* rf, const char* wf, int ed)
     fclose(o);
     gettimeofday(&ft, NULL);
     double ms = ((ft.tv_sec - st.tv_sec) * 1000.0) + ((double)(ft.tv_usec - st.tv_usec)* .001);
-    FILE* tf = fopen("../doc/des_ms.txt", "a");
+    tf = fopen("../doc/des_ms.txt", "a");
     if(ed) fprintf(tf, "encode: %f ms\n", ms);
     else   fprintf(tf, "decode: %f ms\n", ms);
     fclose(tf);
