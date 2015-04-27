@@ -16,10 +16,14 @@
  */
 int DesFile(const char* rf, const char* wf, int ed)
 {
+  struct timeval st;
+  gettimeofday(&st, NULL);
+
   int rv = 0;
 
-  FILE *i = fopen(rf, "rb"),
-       *o = fopen(wf, "wb");
+  FILE *i  = fopen(rf, "rb"),
+       *o  = fopen(wf, "wb"),
+       *tf = 0;
 
   char b[8];
 
@@ -43,6 +47,12 @@ int DesFile(const char* rf, const char* wf, int ed)
     }
     fclose(i);
     fclose(o);
+    gettimeofday(&ft, NULL);
+    double ms = ((ft.tv_sec - st.tv_sec) * 1000.0) + ((double)(ft.tv_usec - st.tv_usec)* .001);
+    FILE* tf = fopen("../doc/des_ms.txt", "a");
+    if(ed) fprintf(tf, "encode: %f ms\n", ms);
+    else   fprintf(tf, "decode: %f ms\n", ms);
+    fclose(tf);
   }
   else
   {
