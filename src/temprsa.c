@@ -26,7 +26,8 @@ int RsaEncDec(const char* rf, const char* wf, RSA** key, int ed)
   unsigned char* rb;         //read buf
   unsigned char* wb;         //write buf
   FILE *i = fopen(rf, "rb"), //read file
-       *o = fopen(wf, "wb"); //write file
+       *o = fopen(wf, "wb"), //write file
+       *t = 0;               //time file
 
   if(i && o)
   {
@@ -66,10 +67,10 @@ int RsaEncDec(const char* rf, const char* wf, RSA** key, int ed)
     fclose(o);
     gettimeofday(&ft, NULL);
     double ms = ((ft.tv_sec - st.tv_sec) * 1000.0) + ((double)(ft.tv_usec - st.tv_usec)* .001);
-    FILE* tf = fopen("../doc/rsa_ms.txt", "a");
-    if(ed) fprintf(tf, "encode: %f ms\n", ms);
-    else   fprintf(tf, "decode: %f ms\n", ms);
-    fclose(tf)
+    t = fopen("../doc/rsa_ms.txt", "a");
+    if(ed) fprintf(t, "encode: %f ms\n", ms);
+    else   fprintf(t, "decode: %f ms\n", ms);
+    fclose(t);
   }
   else
   {
