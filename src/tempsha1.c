@@ -3,6 +3,8 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <string.h>
+#include <sys/types.h>
+#include <time.h>
 
 /**
  * Generates a sha1 digest for
@@ -13,6 +15,10 @@
  */
 int Sha1Digest(const char* rf, const char* wf, SHA_CTX* c)
 {
+  {
+  struct timeval st, ft;
+  gettimeofday(&st, NULL);
+
   int   r = 0,
       len = 0;
 
@@ -20,7 +26,8 @@ int Sha1Digest(const char* rf, const char* wf, SHA_CTX* c)
                 *rb;
 
   FILE *i = fopen(rf, "rb"),
-       *o = fopen(wf, "wb");
+       *o = fopen(wf, "wb"),
+       *t = 0;
 
   if(i && o)
   {
@@ -48,6 +55,12 @@ int Sha1Digest(const char* rf, const char* wf, SHA_CTX* c)
     free(wb);
     fclose(i);
     fclose(o);
+    
+    gettimeofday(&ft, NULL);
+    double ms = ((ft.tv_sec - st.tv_sec) * 1000.0) + ((double)(ft.tv_usec - st.tv_usec)* .001);
+    t = fopen("../doc/sha_ms.txt", "a");
+    fprintf(t, "digest: %f ms\n", ms);
+    fclose(t);
   }
   else
   {
