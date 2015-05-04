@@ -68,7 +68,14 @@ int main()
   a[4] = 100;
   a[5] = 1;
 
+  /*
+  note 101-53 = 48 
 
+  S1 = 100, 1
+  S2 = 50, 1, 1, 1
+
+  S1-S2 = 48
+  */
   preprocess();
   cout << solution(a, 0, n, m) << endl;
   return 0;
