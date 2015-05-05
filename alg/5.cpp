@@ -52,7 +52,7 @@ int solution(int *a, int i, int n, int m)
         minresult=min(minresult, intervalmax[i][k]+solution(a, k+1, n, m-1));
     }
 
-    memo[m][i]=minresult;
+    intervalmax[i][n-1] = memo[m][i] = minresult;
     return memo[m][i];
 }
 
@@ -75,6 +75,15 @@ int main()
   S2 = 50, 1, 1, 1
 
   S1-S2 = 48
+  
+  interval max table
+
+  50 50 50 50 100 101 
+  0  1  1  1  100 100 
+  0  0  1  1  100 100 
+  0  0  0  1  100 100 
+  0  0  0  0  100 100 
+  0  0  0  0  0   1
   */
   preprocess();
   cout << solution(a, 0, n, m) << endl;
