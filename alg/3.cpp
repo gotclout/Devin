@@ -3,14 +3,6 @@
 
 using namespace std;
 
-struct M
-{
-  int i, //index
-      w; //weight
-
-  M() { w = 0;};
-};
-
 int main(int argc, char** argv)
 {
 
@@ -20,21 +12,18 @@ int main(int argc, char** argv)
   int n   = 6;                        // num items
   int W   = 10;                       // capacity
 
-  int m[n][W];
+  int m[n+1][W+1];
 
   int i, j;
-  for( j = 0; j < W; ++j)
-  {
-      m[0][j] = 0;
-  }
 
-  for( i = 1; i < n; ++i)
+  for( i = 0; i <= n; ++i)
   {
-    for( j = 0; j < W; ++j)
+    for( j = 0; j <= W; ++j)
     {
-      if(w[i] <= j)
+      if(i == 0 || j == 0) m[i][j] = 0;
+      else if(w[i-1] <= j)
       {
-        m[i][j] = max(m[i-1][j], m[i-1][j-w[i]] + v[i]);
+        m[i][j] = max(m[i-1][j], m[i-1][j-w[i-1]] + v[i-1]);
       }
       else
       {
@@ -44,15 +33,28 @@ int main(int argc, char** argv)
   }
 
 
-  for(i = 0; i < n; ++i)
+  for(i = 0; i <= n; ++i)
   {
-    for(j = 0; j < W; ++j)
+    for(j = 0; j <= W; ++j)
     {
       cout << m[i][j] << " ";
     }
     cout << "\n";
   }
 
+  cout << endl << m[n][W] << endl;
+
+/*
+0 0 0 0 0 0 0 0 0 0 0
+0 0 0 0 25 25 25 25 25 25 25
+0 0 50 50 50 50 75 75 75 75 75
+0 45 50 95 95 95 95 120 120 120 120
+0 45 50 95 95 130 130 130 130 155 155
+0 45 50 95 95 130 130 130 145 155 155
+0 45 50 95 95 130 130 160 160 160 175
+
+175
+*/
   return 0;
 }
 
