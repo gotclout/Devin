@@ -1,0 +1,53 @@
+1. DES is a symetric-key encryption algorithm. The algorithm uses the same key for both encrypting plain text and decrypting ciphertext RSA is an asymetric public key encryption algorithm. Unlike DES, RSA uses a generated public and private key pair such that a users private key can be used for the encryption while the private key may be distributed or shared for decryption. RC4 is a stream cipher used mainly in TLS. The stream cipher is a symetric process where each element of a stream is encrypted one at a time while the use of the XOR operation can be used to decrypt the stream of ciphertext to plain text.
+
+
+2. Public announcement is subject for forgery. Publicly available directories can be tampered with. Public Key certification authorities may become unreliable and require trust, if the trust is broken for any reason key distribution is halted and a new trusted identity must be aquired. Key distribution centers suffer the same issue as PK CAs but on a far smaller scale because the system is autonomous however syncronization with frameworks such as Kerberos can provide openings for timing and side channel attacks.
+
+3. Message authentication provides integrity and authenticity assurances on the message. Integrity assurances detect accidental and intentional message changes, while authenticity assurances affirm the message's origin. User authentication is the process of proving a user's identity. A users identity must be proven to gain access to information or services restricted to a group or individuals. This can be acheived in numerous mechanisms requiring a unique identifier and a secret shared between the hosts/provider and user.
+
+4. Internet Protocol Security (IPsec) is a protocol suite for securing Internet Protocol (IP) communications by authenticating and encrypting each IP packet of a communication session. Transport Layer Security (TLS) and its predecessor, Secure Sockets Layer (SSL), are cryptographic protocols designed to provide communications security over a computer network.
+
+1)
+
+  Agent-Based Publisher Subscriber Security Model (APSSM). The IPSec model described relies on the pub sub framework. A highly scalable end-to-end approach which uses an agent-based security system in which autonomous security agents aboard publisher and subscriber entities act as individual authorities to assure that the integrity and custody of data is trustworthy.  Within the model, autonomous security agents are deployed throughout the system and have identical capabilities.  However, the agents’ behavior and responsibilities are dictated by its functionality as a publisher or subscriber security agent.  Agents’ capabilities are limited depending upon the location of their deployment within implementation 
+
+  1. Develop a secure Distributed Key Management Authority (DKMA) for disseminating keys amongst security agents enabling authorization of both publishers and subscribers thus ensuring data integrity and authenticity.  The DKMA distributes a single shared key, a unique private key, and a set of corresponding public keys to each security agent.
+
+  2. Establish an auditable chain of custody for accessing message data using a combination of topic and signature to differentiate between multiple messages published to the same topic by different publishers such that the agents maintain a chain of custody including:
+
+   Entity Authority (The identity of the DKMA)
+   Topic Publication (The identity of the topic publisher)
+   Topic Subscription (The identity of the topic subscriber)
+   Message Transmission (The identity of the message sender)
+   Message Reception (The identity of the message recipient)
+
+  3.  OpenSSL to generate large key stores key pairs
+    PKCS7 RSA X.509 Certificates to establish trust necessary for key management
+    zlib to distribute keys in a compressed format shared between DKMA and security agents (typical zlib compression ratios are on the order of 2:1 to 5:1, significantly increasing dissemination speeds)
+    RSA SHA-1 to sign and verify topics and verify certificates
+    AES-256 to encrypt and decrypt topic messages
+    HMAC-SHA1 to generate MAC tags
+
+  4.  Using this scheme for IPSec alice and bob communicate via PKI secure key distribution message authentication based upon the PUB/SUB protocol.
+
+
+2)
+      p = 3, q = 7, e = 5, M = 2. Please show all the steps in a systematic fashion,
+      like in page 270 of the Stallings text book.
+      n  = pq
+         = 21
+      pn = (p - 1)(q - 1) ,   e x d mod pn = 1
+         = (3 - 1)(7 - 1)
+         = 12                 5 x 5 mod 12 = 1
+
+      n = 21, pn = 12, d = 5 
+
+      C(M) = M^e mod n
+           = M^5 mod 21
+           = 2^5 mod 21
+           = 11
+
+      M(C) = C^d  mod n
+           = C^5  mod 21
+           = 11^5 mod 21
+           = 2
