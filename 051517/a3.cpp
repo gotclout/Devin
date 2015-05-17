@@ -1,0 +1,113 @@
+#include <iostream>
+#include <fstream>
+#include <climits>
+#include <ctime>
+
+#define minVal adj[i][j].value < min &&  adj[i][j].value != -1
+#define setMin min = adj[i][j].value; k = i; l = j;
+
+using namespace std;
+
+//const static int n = 40;
+const static int n = 7;
+
+struct data
+{
+  bool marked, connected; int value;
+  data(){marked = connected = 0; value = -1;};
+};
+
+data adj[n][n];
+
+void print_adj()
+{
+  for(int i = 0; i < n; ++i)
+  {
+    for(int j = 0; j < n; ++j)
+    {
+      cout << adj[i][j].value << "|";
+      if(adj[i][j].connected) cout << "1|"; else cout << "0|";
+      if(adj[i][j].marked) cout << "1"; else cout << "0";
+      if(j + 1 < n) cout << "  " ; else cout << "\n";
+    }
+  }
+}
+
+void initialize(int & initial)
+{
+  char temp;
+  ifstream in;
+  in.open("n2.txt");
+  for(int i = 0; i < n; i++)
+  {
+    for(int j = 0; j < n; j++)
+    {
+      temp = in.peek();
+      if(temp == '-')in >> temp;
+      else
+      {
+        in >> adj[i][j].value;
+        initial += adj[i][j].value;
+      }
+      j == n - 1 ? in.ignore(1, '\n') : in >> temp;
+    }
+  }
+  in.close();
+  print_adj();
+}
+
+bool connected()
+{
+  for(int i = 0; i < n; i++)
+    if(!adj[0][i].connected) return false;
+  return true;
+}
+
+void markConnected(const int & jj, const int & ll)
+{
+  for(int i = 0; i < n; i++)
+  {
+    if(i == jj)
+      for(int j = 0; j < n; j++)
+        adj[i][j].marked = true;
+    adj[i][ll].connected = true;
+  }
+}
+
+void optimize(int & pruned, int & k, int & l)
+{
+  int i, j, min;
+  do{
+    min = INT_MAX;
+    for(i = 0; i < n; i++)
+    {
+      if(adj[i][0].marked)
+      {
+        for(j = 1; j < n; j++)
+          if(!adj[i][j].connected && minVal){setMin}
+      }
+    }
+    pruned += min;
+    adj[k][l].value = -1;
+    markConnected(l, l);
+  }while(!connected());
+}
+
+int main()
+{
+  clock_t start, end;
+  int initial = 0, pruned = 0, i = 0, j = 0, min, k, l;
+  start = clock();
+  initialize(initial);
+  while(adj[i++][j].value == -1)
+  setMin
+  for(i; i < n; i++)
+    if(minVal){setMin}
+  adj[k][l].value = -1;
+  markConnected(0, l);
+  optimize(pruned, k, l);
+  end = clock();
+  cout << initial / 2 - pruned << endl;
+  cout << "Computation Time: " << (end - start) / (double) CLOCKS_PER_SEC << "ms\n";
+  return 0;
+}
