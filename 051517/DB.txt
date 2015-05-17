@@ -1,0 +1,110 @@
+Devin the DB solutions are as follows:
+
+A)
+
+Explicit cursors are SELECT statements that are DECLAREd explicitly in the declaration section of the current block or in a package specification. Implicit cursors do not need to be declared, OPENed, FETCHed, or CLOSEd and occur whenever a SQL statement is directly in the execution or exception section of a PL/SQL block.
+
+B)
+XMLSequence has two forms:
+
+The first form takes as input an XMLType instance and returns a varray of the top-level nodes in the XMLType. This form is effectively superseded by the SQL/XML standard function XMLTable, which provides for more readable SQL code. Prior to Oracle Database 10g Release 2, XMLSequence was used with SQL function TABLE to do some of what can now be done better with the XMLTable function.
+
+The second form takes as input a REFCURSOR instance, with an optional instance of the XMLFormat object, and returns as an XMLSequence type an XML document for each row of the cursor.
+
+Example:
+
+The following example shows how XMLSequence divides up an XML document with multiple elements into VARRAY single-element documents. In this example, the TABLE keyword instructs Oracle Database to consider the collection a table value that can be used in the FROM clause of the subquery:
+
+SELECT EXTRACT(warehouse_spec, '/Warehouse') as "Warehouse"
+   FROM warehouses WHERE warehouse_name = 'San Francisco';
+
+Warehouse
+------------------------------------------------------------
+<Warehouse>
+  <Building>Rented</Building>
+  <Area>50000</Area>
+  <Docks>1</Docks>
+  <DockType>Side load</DockType>
+  <WaterAccess>Y</WaterAccess>
+  <RailAccess>N</RailAccess>
+  <Parking>Lot</Parking>
+  <VClearance>12 ft</VClearance>
+</Warehouse>
+
+1 row selected.
+
+SELECT VALUE(p)
+   FROM warehouses w, 
+   TABLE(XMLSEQUENCE(EXTRACT(warehouse_spec, '/Warehouse/*'))) p
+   WHERE w.warehouse_name = 'San Francisco';
+
+VALUE(P)
+----------------------------------------------------------------
+<Building>Rented</Building>
+<Area>50000</Area>
+<Docks>1</Docks>
+<DockType>Side load</DockType>
+<WaterAccess>Y</WaterAccess>
+<RailAccess>N</RailAccess>
+<Parking>Lot</Parking>
+<VClearance>12 ft</VClearance>
+
+8 rows selected.
+
+C
+<?xml version="1.0"?>
+<tables xmlns:emp="http://www.w3c.org/employee" xmlns:sal="http://www.w3c.org/salary">
+  <employee>
+    <row id="1">
+      <SSN>111111111</SSN>
+      <FNAME>John</FNAME>
+      <LNAME>Adam</LNAME>
+      <DOB>02-03-1970</DOB>
+      <POSITION>Engineer</POSITION>
+      <PHONE>3018600020</PHONE>
+      <DEPT>IT</DEPT>
+    </row>
+    <row id="2">
+      <SSN>222222222</SSN>
+      <FNAME>Sam</FNAME>
+      <LNAME>Smith</LNAME>
+      <DOB>05-06-1980</DOB>
+      <POSITION>Manager</POSITION>
+      <PHONE>4100003010</PHONE>
+      <DEPT>SALES</DEPT>
+    </row>
+    <row id="3">
+      <SSN>333333333</SSN>
+      <FNAME>Susan</FNAME>
+      <LNAME>Wotton</LNAME>
+      <DOB>06-08-1967</DOB>
+      <POSITION>Manager</POSITION>
+      <PHONE>3202002020</PHONE>
+      <DEPT>IT</DEPT>
+    </row>
+  </employee>
+  <sal:salary>
+    <row id="1">
+      <SSN>111111111</SSN>
+      <GROSS>45000</GROSS>
+    </row>
+    <row id="2">
+      <SSN>222222222</SSN>
+      <GROSS>65000</GROSS>
+    </row>
+    <row id="3">
+      <SSN>333333333</SSN>
+      <GROSS>55000</GROSS>
+    </row>
+  </sal:salary>
+</tables>
+
+D)
+
+The Image of the tree is attached
+
+The XPATH query:
+
+/tables/employee/row[SSN = /tables/sal:salary/row[GROSS >= 60000]/SSN/text()]/DEPT
+
+returns SALES
