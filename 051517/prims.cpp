@@ -98,15 +98,15 @@ void optimize(int & pruned, int & k, int & l)
 
 /**
  * Main Implements Prims Algorithm For MST (GREEDY)
- *
- * -,2,4,6,-,-,-
- * 2,-,2,-,6,-,-
- * 4,2,-,1,3,-,-
- * 6,-,1,-,2,3,-
- * -,6,3,2,-,-,5
- * -,-,-,3,-,-,4
- * -,-,-,-,5,4,-
- *
+ *    A B C D E F G
+ * A  -,2,4,6,-,-,-
+ * B  2,-,2,-,6,-,-
+ * C  4,2,-,1,3,-,-
+ * D  6,-,1,-,2,3,-
+ * E  -,6,3,2,-,-,5
+ * F  -,-,-,3,-,-,4
+ * G  -,-,-,-,5,4,-
+ * 
  *     B----E----G
  * G = |\  /|    |
  *     |  C |    |
@@ -115,6 +115,7 @@ void optimize(int & pruned, int & k, int & l)
  *
  *     0 1 2 3 4 5 6
  *     A B C D E F G
+ *   http://en.wikipedia.org/wiki/Prim%27s_algorithm
  **/
 int main()
 {
