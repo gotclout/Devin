@@ -6,6 +6,8 @@
 #define minVal adj[i][j].value < min &&  adj[i][j].value != -1
 #define setMin min = adj[i][j].value; k = i; l = j;
 
+const char* nn = "ABCDEFG"; // node names
+
 using namespace std;
 
 //const static int n = 40;
@@ -88,6 +90,8 @@ void optimize(int & pruned, int & k, int & l)
       }
     }
     pruned += min;
+    cout << "Add Edge: " << nn[k] << "--" << nn[l] << " weight: " << min
+         << " total weight: " << pruned << endl;
     adj[k][l].value = -1;
     markConnected(l, l);
   }while(!connected());
@@ -106,8 +110,5 @@ int main()
   adj[k][l].value = -1;
   markConnected(0, l);
   optimize(pruned, k, l);
-  end = clock();
-  cout << initial / 2 - pruned << endl;
-  cout << "Computation Time: " << (end - start) / (double) CLOCKS_PER_SEC << "ms\n";
   return 0;
 }
